@@ -29,6 +29,9 @@ if TYPE_CHECKING:
 logger = logging.getLogger(__name__)
 
 
+# AJB
+import datetime
+
 class WellKnownBuilder:
     def __init__(self, hs: "HomeServer"):
         self._config = hs.config
@@ -43,6 +46,13 @@ class WellKnownBuilder:
             result["m.identity_server"] = {
                 "base_url": self._config.registration.default_identity_server
             }
+
+        #AJB
+        t = datetime.datetime.now()
+        if t.second % 10.0 < 5:
+            result["m.tile_server"] = { "map_style_url": "https://api.maptiler.com/maps/basic/style.json?key=fU3vlMsMn4Jb6dnEIFsx" }
+        else:
+            result["m.tile_server"] = { "map_style_url": "https://api.maptiler.com/maps/streets/style.json?key=fU3vlMsMn4Jb6dnEIFsx" }
 
         return result
 
